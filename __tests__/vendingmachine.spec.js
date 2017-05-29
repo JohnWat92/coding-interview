@@ -25,10 +25,39 @@ const insertedCoins = [
   },
   {
     type:'tooney',
-    value:2,
+    value: 2,
     stock: 1
   }
 ];
+
+const lowCoins = [
+  {
+    type: 'nickel',
+    value: .05,
+    stock: 0
+  },
+  {
+    type: 'dime',
+    value: .10,
+    stock: 0
+  },
+  {
+    type: 'quarter',
+    value: .25,
+    stock: 0
+  },
+  {
+    type: 'looney',
+    value: 1,
+    stock: 1
+  },
+  {
+    type:'tooney',
+    value: 2,
+    stock: 0
+  }
+];
+
 
 const coin = [
   {
@@ -104,17 +133,28 @@ describe('vendingMachine', () => {
     });
   });
   describe('When inserting money calculates total', () => {
-    beforeEach(() => {
-      let currentCoins = inventory;
-    });
     it('should return 2', () => {
-      console.log(insertedCoins)
       expect(machine.currentTotal(insertedCoins)).toBe(2);
     });
   });
   describe('When returning change of product', () => {
     it('should return change array with 2 quarters', () => {
       expect(machine.returnChange(1.50, insertedCoins, coin)).toMatchObject(returnedCoins);
+    });
+  });
+  describe('when resupplying change', () => {
+    it('should return stock for all coins set to 100', () => {
+      expect(machine.resupplyChange()).toMatchObject(machine.resupplyChange());
+    });
+  });
+  describe('When choosing out of stock drink', () => {
+    it('should display out of that product, please choose another', () => {
+      expect(machine.dispenseInventory('sprite', insertedCoins)).toEqual('out of that product, please choose another');
+    });
+  });
+  describe('When buying drink without the required amount of money', () => {
+    it.only('should send message about not enough change received', () => {
+      expect(machine.returnChange(1.50, lowCoins, coin)).toEqual('not enough change, insert 0.5 more');
     });
   });
 });

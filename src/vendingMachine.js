@@ -7,7 +7,7 @@ const inventory =  [
     {
       name: 'sprite',
       price: 1.50,
-      stock: 8
+      stock: 0
     },
     {
       name: 'coke',
@@ -141,13 +141,16 @@ class vendingMachine{
   dispenseInventory(product, insertedCoins){
     const afterDispensedInventory = inventory;
     const afterDispensedCoins = coin;
-    const returnedCoins = [];
     const insertedCoinsArray = insertedCoins;
 
     for(let i = 0; i < afterDispensedInventory.length; i++){
       if (afterDispensedInventory[i].name === product){
-        afterDispensedInventory[i].stock += -1;
-        const productPrice = afterDispensedInventory[i].price
+        if(afterDispensedInventory[i].stock > 0){
+          afterDispensedInventory[i].stock += -1;
+          const productPrice = afterDispensedInventory[i].price
+        }else{
+          return 'out of that product, please choose another';
+        }
       }
     }
     for (let i = 0; i < afterDispensedCoins.length; i++){
@@ -157,11 +160,13 @@ class vendingMachine{
     }
     return afterDispensedInventory;
   }
-  returnChange(productValue, insertedCoins,coin){
+  returnChange(productValue, insertedCoins, coin){
     const insertedTotal = this.currentTotal(insertedCoins);
     const machineCoins = coin;
     let changeCounter = insertedTotal - productValue;
-    console.log('changeCounter', changeCounter);
+    if(changeCounter < 0){
+      return `not enough change, insert ${-changeCounter} more`
+    }
     let returnedCoinsArray= returnedCoins;
     while(changeCounter > 0){
       if(changeCounter >= 2){
@@ -191,7 +196,7 @@ class vendingMachine{
       }else if( changeCounter >= .10){
         for(let i=0; i<machineCoins.length;i++){
           if(machineCoins[i].type === 'dime'){
-            machineCoins[i].stock -= 1;
+            machineCoins[i].stock += -1;
             changeCounter -= machineCoins[i].value;
             returnedCoinsArray[i].stock += 1;
           }
