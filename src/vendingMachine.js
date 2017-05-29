@@ -28,6 +28,10 @@ const inventory =  [
 
 const coin = [
   {
+    type: 'nickel',
+    value: .05,
+    stock: 40
+  },{
     type: 'dime',
     value: .10,
     stock: 48
@@ -50,7 +54,12 @@ const coin = [
 ]
 
 const insertedCoins = [
-    {
+  {
+    type: 'nickel',
+    value: .05,
+    stock: 0
+  },
+  {
     type: 'dime',
     value: .10,
     stock: 0
@@ -71,7 +80,33 @@ const insertedCoins = [
     stock: 1
   }
 ]
-
+const returnedCoins = [
+   {
+    type: 'nickel',
+    value: .05,
+    stock: 0
+  },
+  {
+    type: 'dime',
+    value: .10,
+    stock: 0
+  },
+  {
+    type: 'quarter',
+    value: .25,
+    stock: 0
+  },
+  {
+    type: 'looney',
+    value: 1,
+    stock: 0
+  },
+  {
+    type:'tooney',
+    value:2,
+    stock: 0
+  },
+];
 class vendingMachine{
   constructor(){
 
@@ -93,7 +128,7 @@ class vendingMachine{
     }
     return refilledCoins;
   }
-  currentTotal(insertedCoins){
+  currentTotal(){
     let total = 0;
     for(let i = 0; i < insertedCoins.length; i++){
       if(insertedCoins[i].stock > 0){
@@ -107,14 +142,14 @@ class vendingMachine{
     const afterDispensedInventory = inventory;
     const afterDispensedCoins = coin;
     const returnedCoins = [];
-    const insertedCoinsArray = insertedCoins
-    const insertedTotal = currentTotal(insertedCoins);
+    const insertedCoinsArray = insertedCoins;
+
     for(let i = 0; i < afterDispensedInventory.length; i++){
       if (afterDispensedInventory[i].name === product){
-        afterDispensedInventory[i].stock -= 1;
+        afterDispensedInventory[i].stock += -1;
+        const productPrice = afterDispensedInventory[i].price
       }
     }
-
     for (let i = 0; i < afterDispensedCoins.length; i++){
       if(insertedCoins[i].stock > 0){
         afterDispensedCoins[i].stock += 1;
@@ -122,8 +157,55 @@ class vendingMachine{
     }
     return afterDispensedInventory;
   }
-  returnChange(){
-
+  returnChange(productValue){
+    const insertedTotal = currentTotal();
+    const machineCoins = coin;
+    let changeCounter = insertedTotal - productValue;
+    let returnedCoinsArray= returnedCoins;
+    while(changeCounter > 0){
+      if(changeCounter >= 2){
+        for(let i=0; i < machineCoins.length; i++){
+          if(machineCoins[i].type === 'tooney'){
+            machineCoins[i].stock -= 1;
+            changeCounter -= machineCoins[i].value;
+            returnedCoins[i].stock += 1;
+          }
+        }
+      }else if( changeCounter >= 1){
+        for(let i=0; i<machineCoins.length;i++){
+          if(machineCoins[i].type === 'looney'){
+            machineCoins[i].stock -= 1;
+            changeCounter -= machineCoins[i].value;
+            returnedCoins[i].stock += 1;
+          }
+        }
+      }else if( changeCounter >= .25){
+        for(let i=0; i<machineCoins.length;i++){
+          if(machineCoins[i].type === 'quarter'){
+            machineCoins[i].stock -= 1;
+            changeCounter -= machineCoins[i].value;
+            returnedCoins[i].stock += 1;
+          }
+        }
+      }else if( changeCounter >= .10){
+        for(let i=0; i<machineCoins.length;i++){
+          if(machineCoins[i].type === 'dime'){
+            machineCoins[i].stock -= 1;
+            changeCounter -= machineCoins[i].value;
+            returnedCoins[i].stock += 1;
+          }
+        }
+      }else if( changeCounter >= .05){
+        for(let i=0; i< machineCoins.length;i++){
+          if(machineCoins[i].type === 'nickel'){
+            machineCoins[i].stock -= 1;
+            changeCounter -= machineCoins[i].value;
+            returnedCoins[i].stock += 1;
+          }
+        }
+      }
+    }
+    return returnedCoins;
   }
 }
 

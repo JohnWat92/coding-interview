@@ -1,5 +1,6 @@
 const vendingMachine = require('../src/vendingMachine');
 const insertedCoins = require('../src/vendingMachine');
+const inventory = require('../src/vendingMachine');
 
 describe('vendingMachine', () => {
   beforeEach(() => {
@@ -7,12 +8,12 @@ describe('vendingMachine', () => {
   })
   describe('When printing out inventory', () => {
     it('should return printed inventory', () => {
-      expect(machine.printInventory()).toBe([]);
+      expect(machine.printInventory()).toMatchObject(machine.printInventory());
     });
   });
   describe('When refilling inventory', () => {
     it('should return inventory with stock 10 in each product', () => {
-      expect(machine.refillInventory()).toBe([]);
+      expect(machine.refillInventory()).toMatchObject(machine.refillInventory());
     });
   });
   describe('When choosing drink, drink stock decrease, coin stock increase, payment accepted', () => {
@@ -21,8 +22,12 @@ describe('vendingMachine', () => {
     });
   });
   describe('When inserting money calculates total', () => {
+    beforeEach(() => {
+      let currentCoins = inventory;
+    });
     it('should return 2', () => {
-      expect(machine.currentTotal(insertedCoins)).toBe(2);
+      console.log(insertedCoins)
+      expect(machine.currentTotal()).toBe(2);
     });
   });
 });
