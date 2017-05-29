@@ -191,4 +191,9 @@ describe('vendingMachine', () => {
       expect(machine.currentTotal(highCoins)).toEqual(1.90);
     });
   });
+  // describe('When being returned change with 1.90', () => {
+  //   it('should return coins array with 40 cents', () => {
+  //     expect(machine.returnChange(1.50, highCoins, coin)).toEqual();
+  //   });
+  // });
 });

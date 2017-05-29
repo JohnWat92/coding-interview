@@ -108,9 +108,6 @@ const returnedCoins = [
   },
 ];
 class vendingMachine{
-  constructor(){
-
-  }
   printInventory(){
     return inventory;
   }
