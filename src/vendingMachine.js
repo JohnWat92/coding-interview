@@ -161,9 +161,11 @@ class vendingMachine{
     return afterDispensedInventory;
   }
   returnChange(productValue, insertedCoins, coin){
+    console.log('insertedCoins', insertedCoins)
     const insertedTotal = this.currentTotal(insertedCoins);
     const machineCoins = coin;
     let changeCounter = insertedTotal - productValue;
+    console.log('changeCounter', changeCounter);
     if(changeCounter < 0){
       return `not enough change, insert ${-changeCounter} more`
     }
