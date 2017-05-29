@@ -128,12 +128,12 @@ class vendingMachine{
     }
     return refilledCoins;
   }
-  currentTotal(){
+  currentTotal(insertedCoins){
     let total = 0;
-    for(let i = 0; i < insertedCoins.length; i++){
-      if(insertedCoins[i].stock > 0){
-        total += (insertedCoins[i].stock*insertedCoins[i].value);
-        console.log(total);
+    const insertedCoinsArray = insertedCoins;
+    for(let i = 0; i < insertedCoinsArray.length; i++){
+      if(insertedCoinsArray[i].stock > 0){
+        total += (insertedCoinsArray[i].stock*insertedCoinsArray[i].value);
       }
     }
     return total;
@@ -157,10 +157,11 @@ class vendingMachine{
     }
     return afterDispensedInventory;
   }
-  returnChange(productValue){
-    const insertedTotal = currentTotal();
+  returnChange(productValue, insertedCoins,coin){
+    const insertedTotal = this.currentTotal(insertedCoins);
     const machineCoins = coin;
     let changeCounter = insertedTotal - productValue;
+    console.log('changeCounter', changeCounter);
     let returnedCoinsArray= returnedCoins;
     while(changeCounter > 0){
       if(changeCounter >= 2){
@@ -168,7 +169,7 @@ class vendingMachine{
           if(machineCoins[i].type === 'tooney'){
             machineCoins[i].stock -= 1;
             changeCounter -= machineCoins[i].value;
-            returnedCoins[i].stock += 1;
+            returnedCoinsArray[i].stock += 1;
           }
         }
       }else if( changeCounter >= 1){
@@ -176,7 +177,7 @@ class vendingMachine{
           if(machineCoins[i].type === 'looney'){
             machineCoins[i].stock -= 1;
             changeCounter -= machineCoins[i].value;
-            returnedCoins[i].stock += 1;
+            returnedCoinsArray[i].stock += 1;
           }
         }
       }else if( changeCounter >= .25){
@@ -184,7 +185,7 @@ class vendingMachine{
           if(machineCoins[i].type === 'quarter'){
             machineCoins[i].stock -= 1;
             changeCounter -= machineCoins[i].value;
-            returnedCoins[i].stock += 1;
+            returnedCoinsArray[i].stock += 1;
           }
         }
       }else if( changeCounter >= .10){
@@ -192,7 +193,7 @@ class vendingMachine{
           if(machineCoins[i].type === 'dime'){
             machineCoins[i].stock -= 1;
             changeCounter -= machineCoins[i].value;
-            returnedCoins[i].stock += 1;
+            returnedCoinsArray[i].stock += 1;
           }
         }
       }else if( changeCounter >= .05){
@@ -200,12 +201,12 @@ class vendingMachine{
           if(machineCoins[i].type === 'nickel'){
             machineCoins[i].stock -= 1;
             changeCounter -= machineCoins[i].value;
-            returnedCoins[i].stock += 1;
+            returnedCoinsArray[i].stock += 1;
           }
         }
       }
     }
-    return returnedCoins;
+    return returnedCoinsArray;
   }
 }
 
