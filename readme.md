@@ -1,4 +1,4 @@
-In this project we created a vending machien using a js class to use test cases to test out the variety of functions.
+In this project we created a vending machine using a js class to use test cases to test out the variety of functions.
 
 The functions being tested are:
 1. refilling the inventory
